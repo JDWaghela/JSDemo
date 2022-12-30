@@ -10,7 +10,6 @@ function calculateVat(input1, input2) {
 }
 
 function GetSubTotal(basketProducts) {
- // let products=JSON.parse(basketProducts);
   let result = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
   sendData(result);
 }
