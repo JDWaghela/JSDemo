@@ -11,8 +11,8 @@ function calculateVat(input1, input2) {
 
 function GetSubTotal(basketProducts) {
   let products=JSON.parse(basketProducts);
-  let result = GetTotal(products, 'derivedPriceWithSubTotal');
-  sendData(result);
+  //let result = GetTotal(products, 'derivedPriceWithSubTotal');
+  sendData(220);
 }
 
 //Get total of specific key from an array. Note:- pass key in String format!
