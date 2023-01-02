@@ -16,19 +16,15 @@ function GetSubTotal(basketProducts) {
 
 //Get total of specific key from an array. Note:- pass key in String format!
 function GetTotal(products, key) {
-  if (key) {
-    var total;
-    if (products.length > 0) {
-      total = products.reduce(
+  let result=0;
+  if (key && products?.length > 0) {
+      result = products.reduce(
         (prev, curr) =>
           parseFloat(prev) + parseFloat(curr[key] ? curr[key] : 0),
         0,
       );
-    }
-    return total;
-  } else {
-    return 0;
   }
+  sendData(result);
 }
 
 function sendData(data) {
