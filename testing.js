@@ -34,7 +34,8 @@ function GetTotal(products, key) {
 //Get total of specific key from an array. Note:- pass key in String format!
 function GetTotalValue(products, key) {
   let result=0;
-  if (key && products?.length > 0) {
+  let key1=JSON.parse(key);
+  if (key1 && products?.length > 0) {
       result = products.reduce(
         (prev, curr) =>
           parseFloat(prev) + parseFloat(curr[key] ? curr[key] : 0),
