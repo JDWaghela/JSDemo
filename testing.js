@@ -38,7 +38,7 @@ function GetTotalValue(products, key) {
   if (key1 && products?.length > 0) {
       result = products.reduce(
         (prev, curr) =>
-          parseFloat(prev) + parseFloat(curr[key] ? curr[key] : 0),
+          parseFloat(prev) + parseFloat(curr[key1] ? curr[key1] : 0),
         0,
       );
   }
