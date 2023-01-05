@@ -10,34 +10,35 @@ function calculateVat(input1, input2) {
 }
 
 function GetSubTotal(basketProducts,products) {
-//   const subTotal = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
+   const subTotal = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
 //   const totalTax = GetTotal(basketProducts, 'derivedTax');
 //   const promoDiscount = GetTotalPromoDiscount(basketProducts);
 //   const freeProductsPromo=GetTotalFreePromoDiscount(products?.freeProducts);
 //   let contractualDiscount = GetTotal(basketProducts, "contractualDiscount");
-//   let result={subTotal,
+   let result={subTotal
 //               totalTax,
 //               contractualDiscount,
-//               totalPromoDiscount:promoDiscount + freeProductsPromo }
-   sendData(120);
+//               totalPromoDiscount:promoDiscount + freeProductsPromo
+              }
+   sendData(result);
  }
 
-// //Get total of specific key from an array. Note:- pass key in String format!
-// function GetTotal(products, key) {
-//   if (key) {
-//     var total;
-//     if (products.length > 0) {
-//       total = products.reduce(
-//         (prev, curr) =>
-//           parseFloat(prev) + parseFloat(curr[key] ? curr[key] : 0),
-//         0,
-//       );
-//     }
-//     return total;
-//   } else {
-//     return 0;
-//   }
-// }
+//Get total of specific key from an array. Note:- pass key in String format!
+function GetTotal(products, key) {
+  if (key) {
+    var total;
+    if (products.length > 0) {
+      total = products.reduce(
+        (prev, curr) =>
+          parseFloat(prev) + parseFloat(curr[key] ? curr[key] : 0),
+        0,
+      );
+    }
+    return total;
+  } else {
+    return 0;
+  }
+}
 
 // //Get total promo discounts on all the products in cart.
 // function GetTotalPromoDiscount(basketProducts){
