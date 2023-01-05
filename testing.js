@@ -9,7 +9,7 @@ function calculateVat(input1, input2) {
   sendData(data);
 }
 
-//function GetSubTotal(basketProducts,products) {
+function GetSubTotal(basketProducts,products) {
 //   const subTotal = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
 //   const totalTax = GetTotal(basketProducts, 'derivedTax');
 //   const promoDiscount = GetTotalPromoDiscount(basketProducts);
@@ -19,8 +19,8 @@ function calculateVat(input1, input2) {
 //               totalTax,
 //               contractualDiscount,
 //               totalPromoDiscount:promoDiscount + freeProductsPromo }
-//   sendData(result);
-// }
+   sendData(120);
+ }
 
 // //Get total of specific key from an array. Note:- pass key in String format!
 // function GetTotal(products, key) {
