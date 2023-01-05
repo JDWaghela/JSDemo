@@ -11,13 +11,13 @@ function calculateVat(input1, input2) {
 
 function GetSubTotal(basketProducts,products) {
    const subTotal = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
-//   const totalTax = GetTotal(basketProducts, 'derivedTax');
-//   const promoDiscount = GetTotalPromoDiscount(basketProducts);
+   const totalTax = GetTotal(basketProducts, 'derivedTax');
+//  const promoDiscount = GetTotalPromoDiscount(basketProducts);
 //   const freeProductsPromo=GetTotalFreePromoDiscount(products?.freeProducts);
-//   let contractualDiscount = GetTotal(basketProducts, "contractualDiscount");
-   let result={subTotal
-//               totalTax,
-//               contractualDiscount,
+   let contractualDiscount = GetTotal(basketProducts, "contractualDiscount");
+   let result={subTotal,
+               totalTax,
+               contractualDiscount
 //               totalPromoDiscount:promoDiscount + freeProductsPromo
               }
    sendData(result);
