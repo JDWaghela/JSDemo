@@ -13,12 +13,12 @@ function GetSubTotal(basketProducts,products) {
    const subTotal = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
    const totalTax = GetTotal(basketProducts, 'derivedTax');
    const promoDiscount = GetTotalPromoDiscount(basketProducts);
-   const freeProductsPromo=GetTotalFreePromoDiscount(products?.freeProducts);
+  // const freeProductsPromo=GetTotalFreePromoDiscount(products?.freeProducts);
    let contractualDiscount = GetTotal(basketProducts, "contractualDiscount");
    let result={subTotal,
                totalTax,
                contractualDiscount,
-               totalPromoDiscount: promoDiscount + freeProductsPromo
+               totalPromoDiscount: promoDiscount// + freeProductsPromo
               }
    sendData(result);
  }
