@@ -12,13 +12,13 @@ function calculateVat(input1, input2) {
 function GetSubTotal(basketProducts,products) {
    const subTotal = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
    const totalTax = GetTotal(basketProducts, 'derivedTax');
-//  const promoDiscount = GetTotalPromoDiscount(basketProducts);
+   const promoDiscount = GetTotalPromoDiscount(basketProducts);
 //   const freeProductsPromo=GetTotalFreePromoDiscount(products?.freeProducts);
    let contractualDiscount = GetTotal(basketProducts, "contractualDiscount");
    let result={subTotal,
                totalTax,
-               contractualDiscount
-//               totalPromoDiscount:promoDiscount + freeProductsPromo
+               contractualDiscount,
+               totalPromoDiscount:promoDiscount //+ freeProductsPromo
               }
    sendData(result);
  }
@@ -40,25 +40,25 @@ function GetTotal(products, key) {
   }
 }
 
-// //Get total promo discounts on all the products in cart.
-// function GetTotalPromoDiscount(basketProducts){
-//   var total = 0;
-//   if (basketProducts.length > 0) {
-//     const fixed = basketProducts.reduce(
-//       (prev, curr) =>
-//         parseFloat(prev) + parseFloat(curr?.derivedPromoDiscount?.fixed),
-//       0
-//     );
-//     const buyXGetY = basketProducts.reduce(
-//       (prev, curr) =>
-//         parseFloat(prev) + parseFloat(curr?.derivedPromoDiscount?.buyXGetY),
-//       0
-//     );
+//Get total promo discounts on all the products in cart.
+function GetTotalPromoDiscount(basketProducts){
+  var total = 0;
+  if (basketProducts.length > 0) {
+    const fixed = basketProducts.reduce(
+      (prev, curr) =>
+        parseFloat(prev) + parseFloat(curr?.derivedPromoDiscount?.fixed),
+      0
+    );
+    const buyXGetY = basketProducts.reduce(
+      (prev, curr) =>
+        parseFloat(prev) + parseFloat(curr?.derivedPromoDiscount?.buyXGetY),
+      0
+    );
 
-//     total = fixed + buyXGetY;
-//   }
-//   return total;
-// };
+    total = fixed + buyXGetY;
+  }
+  return total;
+};
 
 // export const GetTotalFreePromoDiscount = (freeProducts) => {
 //   let freeProductsTotal = 0;
