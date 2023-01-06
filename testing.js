@@ -9,19 +9,31 @@ function calculateVat(input1, input2) {
   sendData(data);
 }
 
+function convertToFixed(value, precision = 0) {
+  if (typeof value === "number") {
+    return value.toFixed(precision);
+  }
+  return Number(value)?.toFixed(precision);
+};
+
 //Get pricing details of the products
 function GetPricingData(basketProducts,products) {
    const subTotal = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
-   const totalTax = GetTotal(basketProducts, 'derivedTax');
+   const totalTaxValue = GetTotal(basketProducts, 'derivedTax');
    const promoDiscount = GetTotalPromoDiscount(basketProducts);
-   const freeProductsPromo=GetTotalFreePromoDiscount(products?.freeProducts);
+   const freeProductsPromo = GetTotalFreePromoDiscount(products?.freeProducts);
    let contractualDiscount = GetTotal(basketProducts, "contractualDiscount");
    const totalPromoDiscount =  promoDiscount + freeProductsPromo;
+   const totalSave = totalPromoDiscount + contractualDiscount;
+   const subTotalValue = subTotal + freeProductsPromo;
+   const finalValue = subTotalValue + totalTaxValue - totalSave;
+   const finalAmount = convertToFixed(finalValue, 0);
    let result={subTotal,
-               totalTax,
+               totalTaxValue,
                contractualDiscount,
                totalPromoDiscount,
-               totalSave: totalPromoDiscount + contractualDiscount
+               totalSave,
+               finalAmount
               }
    sendData(result);
  }
