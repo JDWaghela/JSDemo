@@ -28,7 +28,7 @@ function GetPricingData(basketProducts,products) {
    const subTotalValue = subTotal + freeProductsPromo;
    const finalValue = subTotalValue + totalTaxValue - totalSave;
    const finalAmount = convertToFixed(finalValue, 0);
-   let result={subTotal,
+   let result={subTotalValue,
                totalTaxValue,
                contractualDiscount,
                totalPromoDiscount,
