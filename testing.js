@@ -33,6 +33,7 @@ function GetPricingData(basketProducts, products) {
     const totalPromoDiscount = promoDiscount + freeProductsPromo;
     const totalSave = totalPromoDiscount + contractualDiscount;
     const subTotalValue = subTotal + freeProductsPromo;
+    const netAmount = subTotalValue - totalPromoDiscount - contractualDiscount;
     const finalValue = subTotalValue + totalTaxValue - totalSave;
     const finalAmount = convertToFixed(finalValue, 0);
     let result = {
@@ -41,6 +42,7 @@ function GetPricingData(basketProducts, products) {
         contractualDiscount,
         totalPromoDiscount,
         totalSave,
+        netAmount,
         finalAmount
     }
     sendData(result);
