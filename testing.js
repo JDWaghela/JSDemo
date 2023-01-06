@@ -9,7 +9,8 @@ function calculateVat(input1, input2) {
   sendData(data);
 }
 
-function GetSubTotal(basketProducts,products) {
+//Get pricing details of the products
+function GetPricingData(basketProducts,products) {
    const subTotal = GetTotal(basketProducts, 'derivedPriceWithSubTotal');
    const totalTax = GetTotal(basketProducts, 'derivedTax');
    const promoDiscount = GetTotalPromoDiscount(basketProducts);
@@ -72,19 +73,6 @@ function GetTotalFreePromoDiscount(freeProducts) {
   }
   return freeProductsTotal;
 };
-
-// //Get total of specific key from an array. Note:- pass key in String format!
-// function GetTotalValue(products, key) {
-//   let result=0;
-//   if (key && products?.length > 0) {
-//       result = products.reduce(
-//         (prev, curr) =>
-//           parseFloat(prev) + parseFloat(curr[key] ? curr[key] : 0),
-//         0,
-//       );
-//   }
-//   sendData(result);
-// }
   
 function sendData(data) {
   window.ReactNativeWebView.postMessage(JSON.stringify(data));
