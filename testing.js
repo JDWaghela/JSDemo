@@ -16,10 +16,12 @@ function GetPricingData(basketProducts,products) {
    const promoDiscount = GetTotalPromoDiscount(basketProducts);
    const freeProductsPromo=GetTotalFreePromoDiscount(products?.freeProducts);
    let contractualDiscount = GetTotal(basketProducts, "contractualDiscount");
+   const totalPromoDiscount =  promoDiscount + freeProductsPromo;
    let result={subTotal,
                totalTax,
                contractualDiscount,
-               totalPromoDiscount: promoDiscount + freeProductsPromo
+               totalPromoDiscount,
+               totalSave: totalPromoDiscount + contractualDiscount
               }
    sendData(result);
  }
