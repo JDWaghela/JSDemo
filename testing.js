@@ -99,7 +99,69 @@ function GetTotalFreePromoDiscount(freeProducts) {
     return freeProductsTotal;
 };
 
+
+// Create order from  cart products, and customer details. this method will return order request...................
+
+function GetOrderPricingData(cartProducts,customer,currentStore,) {
+  const requestCartItems = GetRequestCartItem(cartProducts);
+  const subTotalValue = GetTotal(requestCartItems, "subTotal");
+  const taxAmountValue = GetTotal(requestCartItems, "tax");
+  const subTotal = convertToFixed(subTotalValue, 2);
+  const taxAmount = convertToFixed(taxAmountValue, 2);
+  const totalDiscount = GetTotal(requestCartItems, "discountedPrice");
+  const totalPriceValue = +subTotal + +taxAmount - +totalDiscount;
+  const totalPrice = convertToFixed(totalPriceValue, 0);
+//   const userAddress = GetUserAddress(customer, currentStore);
+//   const todayDate = GetCurrentDateInServerFormat();
+
+    let result = {
+//     orderType: OrderType.ZOR,
+//     orderDate: todayDate,
+    subtotal: subTotal,
+    productDiscounts: totalDiscount,
+    totalTax: taxAmount,
+    totalPrice: totalPrice,
+//     billingAddress: userAddress,
+    browserCart: true,
+    cartItems: requestCartItems,
+    }
+    sendData(result);
+}
+
+
+// Get cart item in request format from cart Products.
+const GetRequestCartItem = (cartProducts) => {
+  const cartItems = cartProducts?.cartproducts?.map((cartProduct) => {
+    const subTotal = parseFloat(cartProduct?.derivedPrice ?? 0);
+    const tax = parseFloat(cartProduct?.derivedTax ?? 0);
+    const discountedPrice = cartProduct?.contractualDiscount;
+    const priceAfterDiscount = +subTotal + +tax - +discountedPrice;
+    const finalPrice = roundOfNumberPrecisely(priceAfterDiscount);
+    const saleUoms = {
+      saleUomsName: cartProduct?.product?.saleUomsName,
+      saleUomsCode: cartProduct?.product?.saleUomsCode,
+    };
+    return {
+      id: cartProduct?.id,
+      externalId: cartProduct?.product?.externalId ?? "",
+      categoryId: cartProduct?.product?.categoryId,
+      isPromotional: false,
+      baseUOM: cartProduct?.product?.baseUOM,
+      saleUoms: saleUoms,
+      conversionMulitplierToBase:
+        cartProduct?.product?.conversionMultiplierToBase,
+      quantity: cartProduct?.quantity,
+      basePrice: cartProduct?.product.basePrice,
+      finalPrice: finalPrice,
+      subTotal: subTotal,
+      tax: tax,
+      discountedPrice: discountedPrice,
+    };
+  });
     
+const roundOfNumberPrecisely = (num) => {
+  return Math.round(num * 1000000) / 1000000;
+};
     
 function sendData(data) {
     window.ReactNativeWebView.postMessage(JSON.stringify(data));
