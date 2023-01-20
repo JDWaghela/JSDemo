@@ -36,6 +36,8 @@ function GetPricingData(basketProducts, products) {
     const netAmount = subTotalValue - totalPromoDiscount - contractualDiscount;
     const finalValue = subTotalValue + totalTaxValue - totalSave;
     const finalAmount = convertToFixed(finalValue, 0);
+    const requestCartItems = GetRequestCartItem(basketProducts);
+
     let result = {
         subTotalValue,
         totalTaxValue,
@@ -43,7 +45,8 @@ function GetPricingData(basketProducts, products) {
         totalPromoDiscount,
         totalSave,
         netAmount,
-        finalAmount
+        finalAmount,
+        requestCartItems
     }
     sendData(result);
 }
@@ -97,6 +100,67 @@ function GetTotalFreePromoDiscount(freeProducts) {
     }
     return freeProductsTotal;
 };
+
+// Get cart item in request format from cart Products.
+const GetRequestCartItem = (cartProducts) => {
+  const cartItems = cartProducts?.cartproducts?.map((cartProduct) => {
+    const subTotal = parseFloat(cartProduct?.derivedPrice ?? 0);
+    const tax = parseFloat(cartProduct?.derivedTax ?? 0);
+    const discountedPrice = cartProduct?.contractualDiscount;
+    const priceAfterDiscount = +subTotal + +tax - +discountedPrice;
+    const finalPrice = roundOfNumberPrecisely(priceAfterDiscount);
+    const saleUoms = {
+      saleUomsName: cartProduct?.product?.saleUomsName,
+      saleUomsCode: cartProduct?.product?.saleUomsCode,
+    };
+    return {
+      id: cartProduct?.id,
+      externalId: cartProduct?.product?.externalId ?? "",
+      categoryId: cartProduct?.product?.categoryId,
+      isPromotional: false,
+      baseUOM: cartProduct?.product?.baseUOM,
+      saleUoms: saleUoms,
+      conversionMulitplierToBase:
+        cartProduct?.product?.conversionMultiplierToBase,
+      quantity: cartProduct?.quantity,
+      basePrice: cartProduct?.product.basePrice,
+      finalPrice: finalPrice,
+      subTotal: subTotal,
+      tax: tax,
+      discountedPrice: discountedPrice,
+    };
+  });
+    
+    
+//Get cart item in request format from cart Products.
+const GetRequestCartItem = (cartProducts) => {
+  const cartItems = cartProducts?.cartproducts?.map((cartProduct) => {
+    const subTotal = parseFloat(cartProduct?.derivedPrice ?? 0);
+    const tax = parseFloat(cartProduct?.derivedTax ?? 0);
+    const discountedPrice = cartProduct?.contractualDiscount;
+    const priceAfterDiscount = +subTotal + +tax - +discountedPrice;
+    const finalPrice = roundOfNumberPrecisely(priceAfterDiscount);
+    const saleUoms = {
+      saleUomsName: cartProduct?.product?.saleUomsName,
+      saleUomsCode: cartProduct?.product?.saleUomsCode,
+    };
+    return {
+      id: cartProduct?.id,
+      externalId: cartProduct?.product?.externalId ?? "",
+      categoryId: cartProduct?.product?.categoryId,
+      isPromotional: false,
+      baseUOM: cartProduct?.product?.baseUOM,
+      saleUoms: saleUoms,
+      conversionMulitplierToBase:
+        cartProduct?.product?.conversionMultiplierToBase,
+      quantity: cartProduct?.quantity,
+      basePrice: cartProduct?.product.basePrice,
+      finalPrice: finalPrice,
+      subTotal: subTotal,
+      tax: tax,
+      discountedPrice: discountedPrice,
+    };
+  });
 
 function sendData(data) {
     window.ReactNativeWebView.postMessage(JSON.stringify(data));
