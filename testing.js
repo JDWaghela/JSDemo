@@ -132,36 +132,6 @@ const GetRequestCartItem = (cartProducts) => {
   });
     
     
-//Get cart item in request format from cart Products.
-const GetRequestCartItem = (cartProducts) => {
-  const cartItems = cartProducts?.cartproducts?.map((cartProduct) => {
-    const subTotal = parseFloat(cartProduct?.derivedPrice ?? 0);
-    const tax = parseFloat(cartProduct?.derivedTax ?? 0);
-    const discountedPrice = cartProduct?.contractualDiscount;
-    const priceAfterDiscount = +subTotal + +tax - +discountedPrice;
-    const finalPrice = roundOfNumberPrecisely(priceAfterDiscount);
-    const saleUoms = {
-      saleUomsName: cartProduct?.product?.saleUomsName,
-      saleUomsCode: cartProduct?.product?.saleUomsCode,
-    };
-    return {
-      id: cartProduct?.id,
-      externalId: cartProduct?.product?.externalId ?? "",
-      categoryId: cartProduct?.product?.categoryId,
-      isPromotional: false,
-      baseUOM: cartProduct?.product?.baseUOM,
-      saleUoms: saleUoms,
-      conversionMulitplierToBase:
-        cartProduct?.product?.conversionMultiplierToBase,
-      quantity: cartProduct?.quantity,
-      basePrice: cartProduct?.product.basePrice,
-      finalPrice: finalPrice,
-      subTotal: subTotal,
-      tax: tax,
-      discountedPrice: discountedPrice,
-    };
-  });
-
 function sendData(data) {
     window.ReactNativeWebView.postMessage(JSON.stringify(data));
 }
