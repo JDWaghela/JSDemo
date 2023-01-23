@@ -1,21 +1,3 @@
-function calculateTotal(input1, input2) {
-    let result = input1 + input2;
-    let data = {
-        type: 'calculateTotal',
-        result
-    };
-    sendData(data);
-}
-
-function calculateVat(input1, input2) {
-    let result = input1 + input2 + 10;
-    let data = {
-        type: 'calculateVat',
-        result
-    };
-    sendData(data);
-}
-
 function convertToFixed(value, precision = 0) {
     if (typeof value === "number") {
         return value.toFixed(precision);
@@ -130,7 +112,7 @@ function GetOrderPricingData(cartProducts,customer,currentStore,) {
 
 
 // Get cart item in request format from cart Products.
-const GetRequestCartItem = (cartProducts) => {
+function GetRequestCartItem(cartProducts) {
   const cartItems = cartProducts?.cartproducts?.map((cartProduct) => {
     const subTotal = parseFloat(cartProduct?.derivedPrice ?? 0);
     const tax = parseFloat(cartProduct?.derivedTax ?? 0);
@@ -159,7 +141,7 @@ const GetRequestCartItem = (cartProducts) => {
     };
   });
     
-const roundOfNumberPrecisely = (num) => {
+function roundOfNumberPrecisely(num){
   return Math.round(num * 1000000) / 1000000;
 };
     
