@@ -84,7 +84,7 @@ function GetTotalFreePromoDiscount(freeProducts) {
 
 // Create order from  cart products, and customer details. this method will return order request...................
 
-function GetOrderPricingData(cartProducts,customer,currentStore,) {
+function GetOrderPricingData(cartProducts,customer,currentStore,deliveryEstimateDeliveryDate) {
   const requestCartItems = GetRequestCartItem(cartProducts);
   const subTotalValue = GetTotal(requestCartItems, "subTotal");
   const taxAmountValue = GetTotal(requestCartItems, "tax");
@@ -97,8 +97,8 @@ function GetOrderPricingData(cartProducts,customer,currentStore,) {
 //   const todayDate = GetCurrentDateInServerFormat();
 
     let result = {
-//     orderType: OrderType.ZOR,
-//     orderDate: todayDate,
+    orderType: 'ZOR',
+    orderDate: new Date(),
     subtotal: subTotal,
     productDiscounts: totalDiscount,
     totalTax: taxAmount,
@@ -106,6 +106,7 @@ function GetOrderPricingData(cartProducts,customer,currentStore,) {
 //     billingAddress: userAddress,
     browserCart: true,
     cartItems: requestCartItems,
+        estimatedDeliveryDate: deliveryEstimateDeliveryDate
     }
     sendData(result);
 }
