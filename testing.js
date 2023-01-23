@@ -81,6 +81,17 @@ function GetTotalFreePromoDiscount(freeProducts) {
     return freeProductsTotal;
 };
 
+function GetSaleUoms(product) => {
+  const saleUoms =
+    product?.price?.saleUoms.length > 0 ? product?.price?.saleUoms[0] : null;
+  if (saleUoms) {
+    return {
+      saleUomsName: saleUoms?.name ?? null,
+      saleUomsCode: saleUoms?.code ?? null,
+    };
+  }
+  return null;
+};
 
 // Create order from  cart products, and customer details. this method will return order request...................
 
