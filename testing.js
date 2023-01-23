@@ -93,23 +93,49 @@ function GetOrderPricingData(cartProducts,customer,currentStore,deliveryEstimate
   const totalDiscount = GetTotal(requestCartItems, "discountedPrice");
   const totalPriceValue = +subTotal + +taxAmount - +totalDiscount;
   const totalPrice = convertToFixed(totalPriceValue, 0);
-//   const userAddress = GetUserAddress(customer, currentStore);
-//   const todayDate = GetCurrentDateInServerFormat();
+  const userAddress = GetUserAddress(customer, currentStore);
+  const todayDate = GetCurrentDateInServerFormat();
 
     let result = {
     orderType: 'ZOR',
-    orderDate: new Date(),
+    orderDate: todayDate,
     subtotal: subTotal,
     productDiscounts: totalDiscount,
     totalTax: taxAmount,
     totalPrice: totalPrice,
-//     billingAddress: userAddress,
+    billingAddress: userAddress,
     browserCart: true,
     cartItems: requestCartItems,
-        estimatedDeliveryDate: deliveryEstimateDeliveryDate
+    estimatedDeliveryDate: deliveryEstimateDeliveryDate
     }
     sendData(result);
 }
+
+// Get user address from customer object.
+function GetUserAddress(customer, currentStore) {
+  const address = currentStore?.addresses;
+
+  return {
+    city: address?.city,
+    countryCode: address?.country,
+    customerName: customer?.fullName,
+    email: customer?.userId,
+    externalId: customer?.externalId,
+    phone: currentStore?.mobile ?? "",
+  };
+};
+
+// Get current date having server format
+function GetCurrentDateInServerFormat() {
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = yyyy + "-" + mm + "-" + dd;
+  return today;
+};
+
 
 
 // Get cart item in request format from cart Products.
