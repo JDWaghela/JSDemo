@@ -141,6 +141,59 @@ function GetRequestCartItem(cartProducts) {
       discountedPrice: discountedPrice,
     };
   });
+
+  let freeItems = [];
+  cartProducts?.cartproducts
+    ?.filter((x) => x.freeProduct?.product)
+    .forEach((p) => {
+      const index = freeItems.findIndex(
+        (x) => x.id === p?.freeProduct?.product.id
+      );
+      if (index !== -1) {
+        freeItems[index].quantity =
+          freeItems[index].quantity + p?.freeProduct?.freeProductQty;
+        return;
+      }
+      const saleUoms = GetSaleUoms(p?.freeProduct?.product);
+      const conversionMultiplierToBase = GetConversionToBasePrice(
+        p?.freeProduct?.product?.price
+      );
+      freeItems.push({
+        id: p?.freeProduct?.product.id,
+        externalId: p?.freeProduct?.product?.externalId ?? "",
+        categoryId: p?.freeProduct?.product?.categoryId,
+        isPromotional: true,
+        baseUOM: p?.freeProduct?.product?.price?.baseUOM,
+        saleUoms: saleUoms,
+        conversionMulitplierToBase: conversionMultiplierToBase,
+        quantity: p?.freeProduct?.freeProductQty,
+      });
+    });
+
+  cartProducts?.freeProducts?.forEach((p) => {
+    const index = freeItems.findIndex((x) => x.id === p?.product.id);
+    if (index !== -1) {
+      freeItems[index].quantity = freeItems[index].quantity + p?.freeProductQty;
+      return;
+    }
+    const saleUoms = GetSaleUoms(p?.product);
+    const conversionMultiplierToBase = GetConversionToBasePrice(
+      p?.product?.price
+    );
+    freeItems.push({
+      id: p?.product.id,
+      externalId: p?.product?.externalId ?? "",
+      categoryId: p?.product?.categoryId,
+      isPromotional: true,
+      baseUOM: p?.product?.price?.baseUOM,
+      saleUoms: saleUoms,
+      conversionMulitplierToBase: conversionMultiplierToBase,
+      quantity: p?.freeProductQty,
+    });
+  });
+
+  return [...cartItems, ...freeItems];
+};
     
 function roundOfNumberPrecisely(num){
   return Math.round(num * 1000000) / 1000000;
